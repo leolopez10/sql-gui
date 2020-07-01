@@ -2,6 +2,8 @@
 .vscode/
 client/build
 client/node_modules
+notes.js
+.notes.js
 # Logs
 logs
 *.log
