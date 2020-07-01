@@ -141,4 +141,28 @@ const sqlite = require('sqlite3').verbose();
 //   console.log(`Rows inserted ${this.changes}`);
 // });
 
+// // Updating data
+// let data = ['Ansi C', 'C'];
+// let sql = `UPDATE langs
+//             SET name = ?
+//             WHERE name = ?`;
+
+// db.run(sql, data, function (err) {
+//   if (err) {
+//     return console.error(err.message);
+//   }
+//   console.log(`Row(s) updated: ${this.changes}`);
+// });
+
+// // Deleting a row based on id
+// let id = 1;
+// // delete a row based on id
+// db.run(`DELETE FROM langs WHERE rowid=?`, id, function (err) {
+//   if (err) {
+//     return console.error(err.message);
+//   }
+//   console.log(`Row(s) deleted ${this.changes}`);
+// });
+
+// // close the database connection
 // db.close();
