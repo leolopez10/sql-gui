@@ -7,7 +7,6 @@ import { Container } from 'reactstrap';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SqlEditor from '../components/SqlEditor';
-import Results from '../components/Results';
 import SavedQueries from '../components/SavedQueries';
 
 function LandingPage() {
@@ -17,7 +16,6 @@ function LandingPage() {
       <Container fluid={true}>
         <SavedQueries />
         <SqlEditor />
-        <Results />
       </Container>
       <Footer />
     </Fragment>

@@ -7,6 +7,9 @@ import 'ace-builds/src-noconflict/mode-mysql';
 import 'ace-builds/src-noconflict/mode-sqlserver';
 import 'ace-builds/src-noconflict/theme-terminal';
 
+// Import core element
+import Results from './Results';
+
 // Import bootstrap
 import {
   Button,
@@ -90,6 +93,11 @@ ORDER BY name`} // Dynamically input text from database or user input
                 </Row>
               </FormGroup>
             </Form>
+            <Row>
+              <Col className='ml-auto mr-auto'>
+                <Results />
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Container>
