@@ -44,9 +44,7 @@ mongoose
   )
   .catch(error => console.log(error));
 
-// Lets check if our backend is running (remove this for deployment)
-// app.get('/', (req, res) => res.send('API RUNNING!!!'));
-
+// Get user input to come her from the client side
 app.get('/api/sql_db', (req, res) => {
   // Get all
   sql_db.all(

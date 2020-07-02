@@ -2,11 +2,13 @@ const jwt = require('jsonwebtoken'); // to generate signed token
 const expressJwt = require('express-jwt'); // to check for authentication
 const bcrypt = require('bcryptjs'); // to check for password match
 const { validationResult } = require('express-validator'); // validation for user sign in and sign up
-const { errorHandler } = require('../helpers/dbErrorHandler'); // Error handler for database errors
 
 // Model
 const User = require('../models/user');
 
+// @route   POST api/auth/signup
+// @desc    Create auth by user Id
+// @access  Public
 exports.signup = (req, res) => {
   //   res.json(req.body);
 
@@ -21,7 +23,7 @@ exports.signup = (req, res) => {
   user.save((err, user) => {
     if (err) {
       return res.status(400).json({
-        err: errorHandler(err)
+        err: console.error(err)
       });
     }
     user.password = undefined;
@@ -35,6 +37,9 @@ exports.signup = (req, res) => {
   });
 };
 
+// @route   POST api/auth/signup
+// @desc    Create auth by user Id
+// @access  Public
 exports.signin = (req, res) => {
   // res.json(req.body);
 
@@ -49,8 +54,7 @@ exports.signin = (req, res) => {
   User.findOne({ username }, (err, user) => {
     if (err || !user) {
       return res.status(404).json({
-        err:
-          'User with that username could not be found. Please sign up or check for spelling errors'
+        err: console.error(err)
       });
     }
 
@@ -80,6 +84,9 @@ exports.signin = (req, res) => {
   });
 };
 
+// @route   GET api/auth/signout
+// @desc    sign out and destroy token and session
+// @access  Private
 exports.signout = (req, res) => {
   res.clearCookie('x-auth-token');
   res.json({ msg: 'Sign-out successful' });

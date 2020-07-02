@@ -3,14 +3,14 @@
 const Sql_code = require('../models/sql');
 
 // Get sql_codeId from URL
-exports.sql_codeById = (req, res, next, id) => {
+exports.codeById = (req, res, next, id) => {
   Sql_code.findById(id).exec((err, code) => {
     if (err) {
       return res.status(400).json({
         error: 'SQL command not found'
       });
     }
-    req.code = code;
+    req.sql = code;
     next();
   });
 };
@@ -40,59 +40,53 @@ exports.create = (req, res) => {
   });
 };
 
-// @route   GET api/sql_code/:userId
+// @route   GET api/sql_code/list/:userId
 // @desc    GET all of user sql_codes
 // @access  Private
 exports.list = (req, res) => {
-  Sql_code.find()
+  Sql_code.find({ user: req.params.userId })
     .sort({ date: -1 })
     .exec((err, codes) => {
       if (err) {
         return res.status(400).json({
-          error: 'Error retrieving information from database'
+          error: console.error(err)
         });
       }
       res.status(200).json(codes);
     });
 };
 
-// @route   GET api/sql_code/:sql_codeId
+// @route   GET api/sql_code/single/:codeId
 // @desc    GET single sql_code by id
 // @access  Private
 exports.read = (req, res) => {
-  return res.status(200).json(req.code);
+  return res.status(200).json(req.sql);
 };
 
-// @route   UPDATE api/sql_code/:sql_codeId/:userId
+// @route   UPDATE api/sql_code/update/:codeId/:userId
 // @desc    update sql_code by UserId and sql_codeId
 // @access  Private
 exports.update = (req, res) => {
-  // Get user information from URL params
-  const user = req.profile;
-
-  // Create new code by signed in user
-  const code = new Sql_code({
-    user,
-    title: req.body.title,
-    sql_code: req.body.sql_code
-  });
-
-  // Save post information to database
+  const code = req.sql;
+  code.title = req.body.title;
+  code.sql_code = req.body.sql_body;
   code.save((err, data) => {
     if (err) {
-      return res.status(400).json({
-        error: 'Error saving to database'
-      });
+      return res.status(400).send(
+        json({
+          error: console.error(err)
+        })
+      );
     }
     res.status(200).json(data);
   });
 };
 
-// @route   DELETE api/sql_code/:sql_codeId/:userId
+// @route   DELETE api/sql_code/remove/:codeId/:userId
 // @desc    Delete sql_code by id
 // @access  Private
 exports.remove = (req, res) => {
-  const code = req.code;
+  const code = req.sql;
   code.remove((err, data) => {
     if (err) {
       return res.status(400).json({
