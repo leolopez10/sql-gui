@@ -1,6 +1,3 @@
-const { errorHandler } = require('../helpers/dbErrorHandler');
-const { validationResult } = require('express-validator');
-
 // Models
 // const User = require('../models/user');
 const Sql_code = require('../models/sql');
@@ -29,7 +26,7 @@ exports.create = (req, res) => {
   const code = new Sql_code({
     user,
     title: req.body.title,
-    description: req.body.sql_code
+    sql_code: req.body.sql_code
   });
 
   // Save post information to database
@@ -70,12 +67,6 @@ exports.read = (req, res) => {
 // @desc    update sql_code by UserId and sql_codeId
 // @access  Private
 exports.update = (req, res) => {
-  // Handle validation errors for signing up
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
-
   // Get user information from URL params
   const user = req.profile;
 
@@ -83,7 +74,7 @@ exports.update = (req, res) => {
   const code = new Sql_code({
     user,
     title: req.body.title,
-    description: req.body.sql_code
+    sql_code: req.body.sql_code
   });
 
   // Save post information to database
@@ -102,7 +93,7 @@ exports.update = (req, res) => {
 // @access  Private
 exports.remove = (req, res) => {
   const code = req.code;
-  post.remove((err, data) => {
+  code.remove((err, data) => {
     if (err) {
       return res.status(400).json({
         error: errorHandler(err)

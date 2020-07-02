@@ -47,7 +47,7 @@ mongoose
 // Lets check if our backend is running (remove this for deployment)
 // app.get('/', (req, res) => res.send('API RUNNING!!!'));
 
-app.get('/', (req, res) => {
+app.get('/api/sql_db', (req, res) => {
   // Get all
   sql_db.all(
     `SELECT DISTINCT Name name FROM playlists ORDER BY name`,
@@ -59,25 +59,6 @@ app.get('/', (req, res) => {
       rows.forEach(row => {
         console.log(row.name);
       });
-    }
-  );
-});
-
-app.get('/users', (req, res) => {
-  // Each method
-  sql_db.each(
-    `SELECT FirstName firstName,
-  LastName lastName,
-  Email email
-  FROM customers
-  WHERE Country = ?
-  ORDER BY FirstName`,
-    ['USA'],
-    (err, row) => {
-      if (err) {
-        throw err;
-      }
-      console.log(`${row.firstName} ${row.lastName} - ${row.email}`);
     }
   );
 });
