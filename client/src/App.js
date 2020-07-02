@@ -3,6 +3,9 @@ import { BrowserRouter, Route } from 'react-router-dom';
 // Import pages
 import LandingPage from './views/LandingPage';
 
+// Import Style
+import './assets/css/style.css';
+
 function App() {
   return (
     <BrowserRouter>

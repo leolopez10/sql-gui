@@ -7,9 +7,9 @@ function Footer() {
   return (
     <footer
       style={{
-        backgroundColor: 'grey',
-        position: 'fixed',
-        bottom: '0',
+        backgroundColor: 'rgb(23, 50, 75)',
+        bottom: '1',
+        padding: '5px',
         width: '100%',
         zIndex: '4'
       }}

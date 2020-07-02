@@ -19,7 +19,7 @@ function Header() {
           backgroundPosition: 'center center',
           minHeight: '30vh'
         }}
-        className='page-header'
+        className='page-header mb-3'
         data-parallax={true}
         ref={pageHeader}
       >

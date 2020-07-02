@@ -1,0 +1,44 @@
+.move-left {
+  width: 20%;
+  padding-right: 0.5rem;
+  margin-right: 0.5rem;
+  float: left;
+}
+
+@media screen and (max-width: 1000px) {
+  h2 {
+    font-size: x-large;
+  }
+  h5 {
+    font-size: x-large;
+  }
+  aside {
+    width: 100%;
+  }
+  .move-left {
+    width: 100%;
+    padding-right: 0;
+    margin-right: 0;
+    float: none;
+    margin-bottom: 20px;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  h2 {
+    font-size: x-large;
+  }
+  h5 {
+    font-size: x-large;
+  }
+  aside {
+    width: 100%;
+  }
+  .move-left {
+    width: 100%;
+    padding-right: 0;
+    margin-right: 0;
+    float: none;
+    margin-bottom: 20px;
+  }
+}
