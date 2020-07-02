@@ -5,10 +5,18 @@ import { Container, Row } from 'reactstrap';
 
 function Footer() {
   return (
-    <footer style={{ backgroundColor: 'grey' }}>
+    <footer
+      style={{
+        backgroundColor: 'grey',
+        position: 'fixed',
+        bottom: '0',
+        width: '100%',
+        zIndex: '4'
+      }}
+    >
       <Container>
         <Row>
-          <div className='credits ml-auto mr-auto'>
+          <div className='ml-auto mr-auto'>
             <span className='copyright' style={{ color: 'white' }}>
               © {new Date().getFullYear()}, Made by Leo Lopez
             </span>
