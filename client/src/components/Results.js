@@ -9,27 +9,28 @@ function Results() {
       <h5>Results</h5>
       <Col>
         <Row>
-          <ListGroup
+          <table
             style={{
+              border: 'solid',
               width: '100%'
             }}
           >
-            <ListGroupItem color='info'>
-              Which albums have the most tracks
-            </ListGroupItem>
-            <ListGroupItem color='info'>
-              Which albums have the most track time?
-            </ListGroupItem>
-            <ListGroupItem color='info'>
-              Which artists have the most track time?
-            </ListGroupItem>
-            <ListGroupItem color='info'>
-              Which tracks appears on the most playlists?
-            </ListGroupItem>
-            <ListGroupItem color='info'>
-              Which playlists have the most track time?
-            </ListGroupItem>
-          </ListGroup>
+            <tr>
+              <th>table tile</th>
+              <th>table tile</th>
+              <th>table tile</th>
+            </tr>
+            <tr>
+              <td>data</td>
+              <td>data</td>
+              <td>data</td>
+            </tr>
+            <tr>
+              <td>more data</td>
+              <td>more data</td>
+              <td>more data</td>
+            </tr>
+          </table>
         </Row>
       </Col>
     </div>

@@ -45,9 +45,10 @@ mongoose
   .catch(error => console.log(error));
 
 // Get user input to come here from the client side
-app.get('/api/sql_db', (req, res) => {
+app.post('/api/sql_db', (req, res) => {
   // Hit the database
   let sql = req.body.sql_code;
+  // console.log(req.body);
   sql_db.all(sql, [], (err, rows) => {
     if (err) {
       throw err;
