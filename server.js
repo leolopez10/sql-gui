@@ -44,21 +44,17 @@ mongoose
   )
   .catch(error => console.log(error));
 
-// Get user input to come her from the client side
+// Get user input to come here from the client side
 app.get('/api/sql_db', (req, res) => {
-  // Get all
-  sql_db.all(
-    `SELECT DISTINCT Name name FROM playlists ORDER BY name`,
-    [],
-    (err, rows) => {
-      if (err) {
-        throw err;
-      }
-      rows.forEach(row => {
-        console.log(row.name);
-      });
+  // Hit the database
+  let sql = req.body.sql_code;
+  sql_db.all(sql, [], (err, rows) => {
+    if (err) {
+      throw err;
     }
-  );
+    // console.log(rows);
+    res.status(200).json(rows);
+  });
 });
 
 app.listen(PORT, () => console.log(`Server is listening on port: ${PORT}`));
