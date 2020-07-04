@@ -9,8 +9,7 @@ import {
   Form,
   FormGroup,
   Input,
-  Button,
-  Alert
+  Button
 } from 'reactstrap';
 
 function SignUp() {

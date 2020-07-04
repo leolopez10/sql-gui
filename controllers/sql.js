@@ -1,3 +1,5 @@
+const { errorHandler } = require('../helpers/dbErrorHandler');
+
 // Models
 // const User = require('../models/user');
 const Sql_code = require('../models/sql');

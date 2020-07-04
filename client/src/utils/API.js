@@ -15,8 +15,6 @@ export const signup = user => {
   const body = JSON.stringify(user);
 
   return axios.post('/api/auth/signup', body, config);
-  // .then(res => res)
-  // .catch(err => console.log(err));
 };
 
 // Log in
@@ -30,14 +28,13 @@ export const signin = user => {
   const body = JSON.stringify(user);
 
   return axios.post('/api/auth/signin', body, config);
-  // .then(res => console.log(res))
-  // .catch(err => console.log(err));
 };
 
 // Authenticate the user after log in
 export const authenticate = (data, next) => {
   if (typeof window !== 'undefined') {
-    localStorage.setItem('jwt', data);
+    localStorage.setItem('jwt', JSON.stringify(data));
+    // localStorage.setItem('data', JSON.stringify(data));
     next();
   }
 };
@@ -55,10 +52,9 @@ export const isAuthenticated = () => {
 };
 
 // Log out
-export const signout = next => {
+export const signout = () => {
   if (typeof window !== 'undefined') {
     localStorage.removeItem('jwt');
-    next();
   }
   return axios.get('/api/auth/signout');
 };
@@ -71,10 +67,7 @@ export const deleteAccount = (userId, token) => {
     }
   };
 
-  axios
-    .delete(`/api/auth/remove/${userId}`, config)
-    .then(res => res)
-    .catch(err => console.log(err));
+  return axios.delete(`/api/auth/remove/${userId}`, config);
 };
 
 // ====================================================
@@ -92,10 +85,7 @@ export const saveCode = (values, userId, token) => {
 
   const body = JSON.stringify(values);
 
-  axios
-    .post(`/api/sql_code/create/${userId}`, body, config)
-    .then(res => res)
-    .catch(err => console.log(err));
+  return axios.post(`/api/sql_code/create/${userId}`, body, config);
 };
 
 // List all of user queries
@@ -105,16 +95,7 @@ export const getQueries = (userId, token) => {
       Authorization: `Bearer ${token}`
     }
   };
-  axios
-    .get(`/api/sql_code/list/${userId}`, config)
-    .then(res => {
-      return res;
-    })
-    .catch(err => {
-      if (err) {
-        console.log(err);
-      }
-    });
+  return axios.get(`/api/sql_code/list/${userId}`, config);
 };
 
 // Get a single query to plug into front end
@@ -124,16 +105,7 @@ export const getQuery = (codeId, token) => {
       Authorization: `Bearer ${token}`
     }
   };
-  axios
-    .get(`/api/sql_code/single/${codeId}`, config)
-    .then(res => {
-      return res;
-    })
-    .catch(err => {
-      if (err) {
-        console.log(err);
-      }
-    });
+  return axios.get(`/api/sql_code/single/${codeId}`, config);
 };
 
 // Update a single query
@@ -147,18 +119,17 @@ export const updateQuery = (values, codeId, userId, token) => {
 
   const body = JSON.stringify(values);
 
-  axios
-    .put(`/api/sql_code/update/${codeId}/${userId}`, body, config)
-    .then(res => res)
-    .catch(err => console.log(err));
+  return axios.put(`/api/sql_code/update/${codeId}/${userId}`, body, config);
 };
 
 // Delete a user's query
-export const deleteQuery = (codeId, userId) => {
-  axios
-    .delete(`/api/sql_code/remove/${codeId}/${userId}`)
-    .then(res => res.data)
-    .catch(err => console.log(err));
+export const deleteQuery = (codeId, userId, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
+  return axios.delete(`/api/sql_code/remove/${codeId}/${userId}`, config);
 };
 
 // ====================================================
@@ -173,8 +144,5 @@ export const executeSql = sql => {
 
   const body = JSON.stringify(sql);
 
-  axios
-    .post('/api/sql_db', body, config)
-    .then(response => console.log(response.data))
-    .catch(err => console.log(err));
+  return axios.post('/api/sql_db', body, config);
 };

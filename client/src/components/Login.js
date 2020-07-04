@@ -43,8 +43,8 @@ function Login() {
     // console.log(values);
     signin({ username, password })
       .then(res => {
-        console.log(res.data.token);
-        authenticate(res.data.token, () => {
+        // console.log(res);
+        authenticate(res.data, () => {
           setValues({
             ...values,
             redirectToReferrer: true
