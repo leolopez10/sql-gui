@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
 
 // Import Ace Code editor
@@ -29,6 +29,21 @@ function SqlEditor() {
     // error: '',
     // loading: false
   });
+
+  const [queries, setQueries] = useState([]);
+
+  let getQueries = () => {
+    axios
+      .get('/api/sql_code/list/5efd3a0d029db047e428b663')
+      .then(res => {
+        setQueries(res.data);
+      })
+      .catch(err => {
+        if (err) {
+          console.log(err);
+        }
+      });
+  };
 
   const { title, sql_code, loading, error } = values;
 
@@ -61,7 +76,9 @@ function SqlEditor() {
     axios
       .post('/api/sql_code/create/5efd3a0d029db047e428b663', body, config)
       .then(response => {
-        return console.log(response);
+        console.log(response);
+        getQueries();
+        console.log(queries);
       })
       .catch(err => {
         console.log(err);

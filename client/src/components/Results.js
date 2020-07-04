@@ -9,7 +9,7 @@ function Results() {
       <h5>Results</h5>
       <Col>
         <Row>
-          <table
+          {/* <table
             style={{
               border: 'solid',
               width: '100%'
@@ -30,7 +30,7 @@ function Results() {
               <td>more data</td>
               <td>more data</td>
             </tr>
-          </table>
+          </table> */}
         </Row>
       </Col>
     </div>

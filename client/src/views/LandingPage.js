@@ -16,8 +16,8 @@ function LandingPage() {
       <Container fluid={true}>
         <SavedQueries />
         <SqlEditor />
+        <Footer />
       </Container>
-      <Footer />
     </Fragment>
   );
 }

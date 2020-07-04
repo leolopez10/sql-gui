@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken'); // to generate signed token
 const expressJwt = require('express-jwt'); // to check for authentication
 const bcrypt = require('bcryptjs'); // to check for password match
 const { validationResult } = require('express-validator'); // validation for user sign in and sign up
+const { errorHandler } = require('../helpers/dbErrorHandler');
 
 // Model
 const User = require('../models/user');
@@ -23,7 +24,7 @@ exports.signup = (req, res) => {
   user.save((err, user) => {
     if (err) {
       return res.status(400).json({
-        err: console.error(err)
+        err: errorHandler(err)
       });
     }
     user.password = undefined;
@@ -54,16 +55,16 @@ exports.signin = (req, res) => {
   User.findOne({ username }, (err, user) => {
     if (err || !user) {
       return res.status(404).json({
-        err: console.error(err)
+        error: 'User does not exist. Please sign-up'
       });
     }
 
-    // If user is found check email and password for a match
+    // If user is found check password for a match
     bcrypt
       .compare(password, user.password)
       .then(isMatch => {
         if (!isMatch) {
-          return res.status(400).json({ err: 'Invalid password' });
+          return res.status(400).json({ error: 'Invalid password' });
         }
 
         // Generate user token to login user immediately after signing up
