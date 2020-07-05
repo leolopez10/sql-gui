@@ -150,12 +150,12 @@ SO THAT I can become fluent in SQL
     - SELECT  
       playlists.PlaylistId,  
       playlists.Name AS PlaylistName,  
-      SUM(tracks.Milliseconds) / 60000 AS PlayTime  
+      SUM(tracks.Milliseconds) / 60000 AS Minutes  
       FROM playlists  
       JOIN playlist_track ON playlists.PlaylistId = playlist_track.PlaylistId  
       JOIN tracks ON playlist_track.TrackId = tracks.TrackId  
       GROUP BY playlists.PlaylistId  
-      ORDER BY PlayTime DESC
+      ORDER BY Minutes DESC
 
 ## Built With
 
