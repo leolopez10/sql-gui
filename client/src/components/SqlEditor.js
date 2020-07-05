@@ -46,7 +46,7 @@ function SqlEditor() {
     });
     executeSql(codeSnippet)
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         setValues({
           ...values,
           loading: false,
@@ -69,7 +69,8 @@ function SqlEditor() {
       ...values,
       sql_code: 'SELECT'
     });
-    window.location.reload();
+    setResults([]);
+    // window.location.reload();
   };
 
   const showLoading = () =>
@@ -112,8 +113,8 @@ function SqlEditor() {
             }}
           >
             If you would like to save your queries please{' '}
-            <Link to='/login' className='text-primary'>
-              Log-In
+            <Link to='/signup' className='text-primary'>
+              Sign-Up
             </Link>
           </p>
         </Col>
@@ -144,7 +145,7 @@ function SqlEditor() {
   };
 
   const Results = () => (
-    <div className='mb-3'>
+    <div className='mb-3 table-responsive'>
       <h5>Results</h5>
       <Row>
         <Col>

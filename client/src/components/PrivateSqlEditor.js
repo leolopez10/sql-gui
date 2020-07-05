@@ -141,6 +141,7 @@ function SqlEditor() {
       sql_code: 'SELECT',
       success: false
     });
+    setResults([]);
   };
 
   let loadQueries = () => {
@@ -166,7 +167,7 @@ function SqlEditor() {
   let showSavedQuery = (codeId, token) => {
     getQuery(codeId, token)
       .then(res => {
-        console.log(res.data.title);
+        // console.log(res.data.title);
         setValues({
           ...values,
           title: res.data.title,
@@ -294,7 +295,7 @@ function SqlEditor() {
 
   // Work on dynmically getting results
   const Results = () => (
-    <div className='mb-3'>
+    <div className='mb-3 table-responsive'>
       <Row>
         <Col>
           {/* {JSON.stringify(results)} */}

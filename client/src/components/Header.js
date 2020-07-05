@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Header() {
   let pageHeader = React.createRef();
@@ -29,7 +30,9 @@ function Header() {
             textAlign: 'center'
           }}
         >
-          SQL Graphic User Interface
+          <Link style={{ color: 'white', textDecoration: 'none' }} to='/'>
+            SQL Graphic User Interface
+          </Link>
         </h1>
       </div>
     </>

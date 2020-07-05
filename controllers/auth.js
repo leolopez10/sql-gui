@@ -32,7 +32,7 @@ exports.signup = (req, res) => {
     // Generate user token to login user immediately after signing up
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
     // persist the token as 'x-auth-token' in cookie with expiry date
-    res.cookie('x-auth-token', token, { expiresIn: 360000 }); // 3600 is an hour
+    res.cookie('x-auth-token', token, { expiresIn: 3600 }); // 3600 is an hour
     //return response with user and token to frontend client
     return res.status(200).json({ token, user });
   });
@@ -50,7 +50,7 @@ exports.signin = (req, res) => {
     return res.status(422).json({ errors: errors.array() });
   }
 
-  // find the user based on email
+  // find the user based on username
   const { username, password } = req.body;
   User.findOne({ username }, (err, user) => {
     if (err || !user) {
@@ -67,10 +67,10 @@ exports.signin = (req, res) => {
           return res.status(400).json({ error: 'Invalid password' });
         }
 
-        // Generate user token to login user immediately after signing up
+        // Generate user token to login user immediately after signing in
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
         // persist the token as 'x-auth-token' in cookie with expiry date
-        res.cookie('x-auth-token', token, { expiresIn: 360000 }); // 3600 is an hour
+        res.cookie('x-auth-token', token, { expiresIn: 3600 }); // 3600 is an hour
         //return response with user and token to frontend client
         const { _id, username } = user;
         return res.status(200).json({
