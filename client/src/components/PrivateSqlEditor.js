@@ -42,14 +42,25 @@ function SqlEditor() {
   const [queries, setQueries] = useState([]);
   const [results, setResults] = useState([]);
 
+  const { title, sql_code, loading, error, success } = values;
+
   const {
     user: { username, _id },
     token
   } = isAuthenticated();
 
-  const { sql_code, loading, error, success } = values;
+  useEffect(() => {
+    let loadQueries = () => {
+      getQueries(_id, token)
+        .then(res => {
+          // console.log(res)
+          setQueries(res.data);
+        })
+        .catch(err => console.log(err));
+    };
+    loadQueries();
+  }, [_id, token]);
 
-  // Create an invisible text area that will take in the code
   const handleChange = event => {
     const { name, value } = event.target;
     setValues({
@@ -133,18 +144,6 @@ function SqlEditor() {
       .catch(err => console.log(err));
   };
 
-  useEffect(() => {
-    let loadQueries = () => {
-      getQueries(_id, token)
-        .then(res => {
-          // console.log(res)
-          setQueries(res.data);
-        })
-        .catch(err => console.log(err));
-    };
-    loadQueries();
-  }, [_id, token]);
-
   let removeQuery = (codeId, userId, token) => {
     deleteQuery(codeId, userId, token)
       .then(res => loadQueries())
@@ -157,10 +156,15 @@ function SqlEditor() {
   };
 
   // Then work here ===================================
-  let storeSavedQuery = (codeId, token) => {
+  let showSavedQuery = (codeId, token) => {
     getQuery(codeId, token)
       .then(res => {
-        console.log(res);
+        console.log(res.data.title);
+        setValues({
+          ...values,
+          title: res.data.title,
+          sql_code: res.data.sql_code
+        });
         // setToActive(codeId);
         // deActivate();
       })
@@ -228,7 +232,7 @@ function SqlEditor() {
                     id={query._id}
                     key={index}
                     tag='div'
-                    onClick={() => storeSavedQuery(query._id, token)}
+                    onClick={() => showSavedQuery(query._id, token)}
                     action
                   >
                     {query.title}
@@ -255,7 +259,7 @@ function SqlEditor() {
   };
 
   let renderTableData = () => {
-    console.log(results);
+    // console.log(results);
     return results.map((result, index) => {
       let data = Object.values(result);
       return (
@@ -310,6 +314,7 @@ function SqlEditor() {
                         placeholder='Whats the title of your search?'
                         name='title'
                         type='text'
+                        value={title}
                         onChange={handleChange}
                       />
                       <Button
