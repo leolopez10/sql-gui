@@ -78,7 +78,6 @@ function Login() {
         <h2>Loading...</h2>
       </div>
     );
-
   const redirectUser = () => {
     if (redirectToReferrer) {
       return <Redirect to='/' />;
@@ -92,57 +91,47 @@ function Login() {
       {redirectUser()}
       <Container fluid className='mr-auto ml-auto'>
         <Col>
-          <Row>
+          <Row className='d-flex flex-column mr-auto ml-auto'>
             <h1 className='large text-info'>Login</h1>
-          </Row>
-        </Col>
-        <Col>
-          <Row>
             <p className='lead'>Let's get your saved Queries</p>
-          </Row>
-        </Col>
-        <Col className='mr-auto ml-auto'>
-          <Row>
-            <Form className='form'>
-              <FormGroup>
-                <Input
-                  type='text'
-                  placeholder='Username'
-                  name='username'
-                  // value={username}
-                  onChange={handleChange}
-                  required
-                />
-              </FormGroup>
-              <FormGroup>
-                <Input
-                  type='password'
-                  placeholder='Password'
-                  name='password'
-                  // value={password}
-                  onChange={handleChange}
-                  minLength='6'
-                />
-              </FormGroup>
-              <Button
-                type='submit'
-                color='info'
-                value='Login'
-                onClick={clickSubmit}
-              >
-                Login
-              </Button>
-            </Form>
-          </Row>
-        </Col>
-        <Col>
-          <Row>
-            <p>
-              Already have an account?{' '}
-              <Link to='/signup' className='text-primary'>
-                Log-In
-              </Link>
-            </p>
+            <Col>
+              <Row>
+                <Form className='form'>
+                  <FormGroup>
+                    <Input
+                      type='text'
+                      placeholder='Username'
+                      name='username'
+                      onChange={handleChange}
+                      required
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Input
+                      type='password'
+                      placeholder='Password'
+                      name='password'
+                      onChange={handleChange}
+                      minLength='6'
+                    />
+                  </FormGroup>
+                  <Button
+                    type='submit'
+                    color='info'
+                    value='Login'
+                    onClick={clickSubmit}
+                  >
+                    Login
+                  </Button>
+                  <p>
+                    Don't have an account?{' '}
+                    <Link to='/signup' className='text-primary'>
+                      Sign-Up
+                    </Link>
+                  </p>
+                </Form>
+              </Row>
+            </Col>
           </Row>
         </Col>
       </Container>

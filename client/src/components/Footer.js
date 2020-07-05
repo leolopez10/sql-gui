@@ -8,10 +8,11 @@ function Footer() {
     <footer
       style={{
         backgroundColor: 'rgb(23, 50, 75)',
-        bottom: '1',
         padding: '5px',
         width: '100%',
-        zIndex: '4'
+        zIndex: '4',
+        bottom: '0',
+        position: 'fixed'
       }}
     >
       <Container>

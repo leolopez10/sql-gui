@@ -87,70 +87,62 @@ function SignUp() {
       {showError()}
       <Container fluid className='mr-auto ml-auto'>
         <Col>
-          <Row>
+          <Row className='d-flex flex-column mr-auto ml-auto'>
             <h1 className='large text-primary'>Sign Up</h1>
-          </Row>
-        </Col>
-        <Col>
-          <Row>
             <p className='lead'>Create Your Account</p>
-          </Row>
-        </Col>
-        <Col className='mr-auto ml-auto'>
-          <Row>
-            <Form
-              className='form'
-              //   onSubmit={}
-            >
-              <FormGroup>
-                <Input
-                  type='text'
-                  placeholder='Username'
-                  name='username'
-                  value={username}
-                  onChange={handleChange}
-                  required
-                />
-              </FormGroup>
-              <FormGroup>
-                <Input
-                  type='password'
-                  placeholder='Password'
-                  name='password'
-                  value={password}
-                  onChange={handleChange}
-                  minLength='6'
-                />
-              </FormGroup>
-              <FormGroup>
-                <Input
-                  type='password'
-                  placeholder='Confirm Password'
-                  name='password2'
-                  value={password2}
-                  onChange={handleChange}
-                  minLength='6'
-                />
-              </FormGroup>
-              <Button
-                type='submit'
-                color='primary'
-                value='Register'
-                onClick={onSubmit}
-              >
-                Register
-              </Button>
-            </Form>
-          </Row>
-        </Col>
-        <Col>
-          <Row>
-            <p>
-              Already have an account?{' '}
-              <Link to='/login' className='text-info'>
-                Log-In
-              </Link>
-            </p>
+            <Col>
+              <Row>
+                <Form
+                  className='form'
+                  //   onSubmit={}
+                >
+                  <FormGroup>
+                    <Input
+                      type='text'
+                      placeholder='Username'
+                      name='username'
+                      onChange={handleChange}
+                      value={username}
+                      required
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Input
+                      type='password'
+                      placeholder='Password'
+                      name='password'
+                      onChange={handleChange}
+                      value={password}
+                      minLength='6'
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Input
+                      type='password'
+                      placeholder='Confirm Password'
+                      name='password2'
+                      onChange={handleChange}
+                      value={password2}
+                      minLength='6'
+                    />
+                  </FormGroup>
+                  <Button
+                    type='submit'
+                    color='primary'
+                    value='Register'
+                    onClick={onSubmit}
+                  >
+                    Register
+                  </Button>
+                  <p>
+                    Already have an account?{' '}
+                    <Link to='/login' className='text-info'>
+                      Log-In
+                    </Link>
+                  </p>
+                </Form>
+              </Row>
+            </Col>
           </Row>
         </Col>
       </Container>

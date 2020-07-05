@@ -34,7 +34,7 @@ exports.signup = (req, res) => {
     // persist the token as 'x-auth-token' in cookie with expiry date
     res.cookie('x-auth-token', token, { expiresIn: 360000 }); // 3600 is an hour
     //return response with user and token to frontend client
-    return res.status(200).json({ token, user: { _id, username } });
+    return res.status(200).json({ token, user });
   });
 };
 
