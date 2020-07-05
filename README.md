@@ -38,7 +38,7 @@ SO THAT I can become fluent in SQL
 
 ## Visuals
 
-### Demo
+### Demo of a Logged-In user
 
 ![alt text](client/src/assets/img/SQL-GUI.gif 'Demo')
 
