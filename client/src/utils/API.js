@@ -61,6 +61,9 @@ export const signout = () => {
 
 // Delete Account
 export const deleteAccount = (userId, token) => {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('jwt');
+  }
   const config = {
     headers: {
       Authorization: `Bearer ${token}`

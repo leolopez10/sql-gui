@@ -7,7 +7,8 @@ import {
   getQuery,
   deleteQuery,
   signout,
-  executeSql
+  executeSql,
+  deleteAccount
 } from '../utils/API';
 
 // Import Ace Code editor
@@ -80,6 +81,11 @@ function SqlEditor() {
 
   const handleSave = event => {
     event.preventDefault();
+    if (!sql_code) {
+      return alert('You need to type some code!!');
+    } else if (!title) {
+      return alert('You should probably give your search a title');
+    }
     saveCode(values, _id, token)
       .then(res => {
         // console.log(res.data);
@@ -155,7 +161,7 @@ function SqlEditor() {
     window.location.reload();
   };
 
-  // Then work here ===================================
+  // Then work here =================================== update stuff
   let showSavedQuery = (codeId, token) => {
     getQuery(codeId, token)
       .then(res => {
@@ -165,8 +171,16 @@ function SqlEditor() {
           title: res.data.title,
           sql_code: res.data.sql_code
         });
-        // setToActive(codeId);
-        // deActivate();
+      })
+      .catch(err => console.log(err));
+  };
+
+  let removeAccount = () => {
+    // Protect the user from deleting the account accidentally
+    deleteAccount(_id, token)
+      .then(res => {
+        console.log(res);
+        window.location.reload();
       })
       .catch(err => console.log(err));
   };
@@ -348,29 +362,32 @@ function SqlEditor() {
                       highlightActiveLine={true}
                       value={sql_code} // Dynamically input text from database or user input
                       setOptions={{
-                        // enableBasicAutocompletion: false,
-                        // enableLiveAutocompletion: false,
-                        // enableSnippets: true,
                         showLineNumbers: true,
                         tabSize: 2
                       }}
                     />
-                    <Button
-                      className='mt-2'
-                      color='success'
-                      size='md'
-                      onClick={handleSave}
-                    >
-                      Save
-                    </Button>
-                    <Button
-                      className='mt-2 ml-2'
-                      color='danger'
-                      size='md'
-                      onClick={handleRun}
-                    >
-                      Run
-                    </Button>
+                    <div className='d-flex mt-2'>
+                      <Button color='success' size='md' onClick={handleSave}>
+                        Save
+                      </Button>
+                      <Button
+                        className='ml-2'
+                        color='danger'
+                        size='md'
+                        onClick={handleRun}
+                      >
+                        Run
+                      </Button>
+                      <Button
+                        outline
+                        className='ml-auto'
+                        color='primary'
+                        size='md'
+                        onClick={removeAccount}
+                      >
+                        Delete Account
+                      </Button>
+                    </div>
                   </Col>
                 </Row>
               </FormGroup>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { signin, authenticate } from '../utils/API';
+import { signin, authenticate, isAuthenticated } from '../utils/API';
 
 // Import reactstrap
 import {
@@ -79,7 +79,7 @@ function Login() {
       </div>
     );
   const redirectUser = () => {
-    if (redirectToReferrer) {
+    if (redirectToReferrer || isAuthenticated()) {
       return <Redirect to='/' />;
     }
   };

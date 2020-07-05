@@ -14,19 +14,17 @@ import PrivateSqlEditor from '../components/PrivateSqlEditor';
 
 function LandingPage() {
   let renderEditor = () => {
-    if (!isAuthenticated()) {
-      return <SqlEditor />;
-    } else {
+    if (isAuthenticated()) {
       return <PrivateSqlEditor />;
+    } else {
+      return <SqlEditor />;
     }
   };
   return (
     <Fragment>
       <Header />
-      <Container fluid={true}>
-        {renderEditor()}
-        <Footer />
-      </Container>
+      <Container fluid={true}>{renderEditor()}</Container>
+      <Footer />
     </Fragment>
   );
 }
