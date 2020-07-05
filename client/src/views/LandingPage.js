@@ -1,51 +1,30 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../utils/API';
 // Import BootStrap
-import { Container, Col, Row, Button } from 'reactstrap';
+import { Container } from 'reactstrap';
 
 // Import Core components
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SqlEditor from '../components/SqlEditor';
-import SavedQueries from '../components/SavedQueries';
+import PrivateSqlEditor from '../components/PrivateSqlEditor';
+// import SavedQueries from '../components/SavedQueries';
+
+// make it where either a regular Sql editor or the private editor is shown.
 
 function LandingPage() {
-  let renderQuery = () => {
+  let renderEditor = () => {
     if (!isAuthenticated()) {
-      return (
-        <Row id='info-banner'>
-          <Col className='mr-auto ml-auto'>
-            <Button
-              close
-              onClick={() => {
-                document.getElementById('info-banner').style.display = 'none';
-              }}
-            />
-            <p
-              style={{
-                textAlign: 'center',
-                backgroundColor: 'rgb(184, 184, 184)'
-              }}
-            >
-              If you would like to save your queries please{' '}
-              <Link to='/login' className='text-primary'>
-                Log-In
-              </Link>
-            </p>
-          </Col>
-        </Row>
-      );
+      return <SqlEditor />;
     } else {
-      return <SavedQueries />;
+      return <PrivateSqlEditor />;
     }
   };
   return (
     <Fragment>
       <Header />
       <Container fluid={true}>
-        {renderQuery()}
-        <SqlEditor />
+        {renderEditor()}
         <Footer />
       </Container>
     </Fragment>

@@ -51,7 +51,7 @@ app.post('/api/sql_db', (req, res) => {
   // console.log(req.body);
   sql_db.all(sql, [], (err, rows) => {
     if (err) {
-      throw err;
+      res.status(500).json(err);
     }
     // console.log(rows);
     res.status(200).json(rows);

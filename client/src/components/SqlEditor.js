@@ -1,11 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import {
-  isAuthenticated,
-  saveCode,
-  getQueries,
-  updateQuery,
-  executeSql
-} from '../utils/API';
+import { Link } from 'react-router-dom';
+import { executeSql } from '../utils/API';
 
 // Import Ace Code editor
 import AceEditor from 'react-ace';
@@ -14,15 +9,12 @@ import 'ace-builds/src-noconflict/mode-mysql';
 import 'ace-builds/src-noconflict/mode-sqlserver';
 import 'ace-builds/src-noconflict/theme-terminal';
 
-// Import core element
-import Results from './Results';
-
 // Import bootstrap
 import {
+  Table,
   Button,
   Form,
   FormGroup,
-  Input,
   Container,
   Row,
   Col
@@ -30,37 +22,14 @@ import {
 
 function SqlEditor() {
   const [values, setValues] = useState({
-    title: '',
     sql_code: '',
     error: false,
     loading: false
   });
 
-  const [queries, setQueries] = useState([]);
+  const [results, setResults] = useState([]);
 
-  let getQueries = () => {
-    // axios
-    //   .get('/api/sql_code/list/5efd3a0d029db047e428b663')
-    //   .then(res => {
-    //     setQueries(res.data);
-    //   })
-    //   .catch(err => {
-    //     if (err) {
-    //       console.log(err);
-    //     }
-    //   });
-  };
-
-  const { title, sql_code, loading, error } = values;
-
-  // Create an invisible text area that will take in the code
-  const handleChange = event => {
-    const { name, value } = event.target;
-    setValues({
-      ...values,
-      [name]: value
-    });
-  };
+  const { sql_code, loading, error } = values;
 
   const handleEditorChange = newValue => {
     setValues({
@@ -69,74 +38,138 @@ function SqlEditor() {
     });
   };
 
-  const handleSave = event => {
-    event.preventDefault();
-    // const config = {
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // };
-
-    // let body = JSON.stringify(values);
-
-    // axios
-    //   .post('/api/sql_code/create/5efd3a0d029db047e428b663', body, config)
-    //   .then(response => {
-    //     console.log(response);
-    //     getQueries();
-    //     console.log(queries);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+  const handleRun = () => {
+    const codeSnippet = { sql_code };
+    setValues({
+      ...values,
+      loading: true
+    });
+    executeSql(codeSnippet)
+      .then(res => {
+        console.log(res.data);
+        setValues({
+          ...values,
+          loading: false,
+          error: false
+        });
+        setResults(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+        setValues({
+          ...values,
+          loading: false,
+          error: true
+        });
+      });
   };
 
-  const handleRun = event => {
-    // event.preventDefault();
-    // const codeSnippet = { sql_code };
-    // const config = {
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // };
-    // const body = JSON.stringify(codeSnippet);
-    // console.log(body);
-    // axios
-    //   .post('/api/sql_db', body, config)
-    //   .then(response => console.log(response.data))
-    //   .catch(err => console.log(err));
+  const handleNew = () => {
+    setValues({
+      ...values,
+      sql_code: ''
+    });
+    window.location.reload();
   };
+
+  const showLoading = () =>
+    loading && (
+      <div className='alert alert-info'>
+        <h2>Loading...</h2>
+      </div>
+    );
+
+  const showError = () => (
+    <div
+      className='alert alert-danger'
+      style={{
+        display: error ? '' : 'none'
+      }}
+    >
+      <p>SYNTAX ERROR, but you have to find where 😈</p>
+    </div>
+  );
+
+  const loginBanner = () => (
+    <Container>
+      <Row id='info-banner'>
+        <Col className='mr-auto ml-auto'>
+          <Button
+            close
+            onClick={() => {
+              document.getElementById('info-banner').style.display = 'none';
+            }}
+          />
+          <p
+            style={{
+              textAlign: 'center',
+              backgroundColor: 'rgb(184, 184, 184)'
+            }}
+          >
+            If you would like to save your queries please{' '}
+            <Link to='/login' className='text-primary'>
+              Log-In
+            </Link>
+          </p>
+        </Col>
+      </Row>
+    </Container>
+  );
+
+  const Results = () => (
+    <div className='mb-3'>
+      <h5>Results</h5>
+      <Row>
+        <Col>
+          {JSON.stringify(results)}
+          <Table
+            dark
+            style={{
+              width: '100%'
+            }}
+          >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope='row'>1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+              </tr>
+              <tr>
+                <th scope='row'>2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+              </tr>
+              <tr>
+                <th scope='row'>3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+              </tr>
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
+    </div>
+  );
 
   return (
     <Fragment>
+      {loginBanner()}
       <Container>
         <Row>
           <Col className='ml-auto mr-auto'>
             <h2>Lets try looking up some information</h2>
-            <Form>
-              <FormGroup>
-                <Row>
-                  <Col>
-                    <div style={{ display: 'flex' }}>
-                      <Input
-                        placeholder='Whats the title of your search?'
-                        name='title'
-                        type='text'
-                        onChange={handleChange}
-                      />
-                      <Button
-                        className='ml-2'
-                        outline
-                        color='success'
-                        size='sm'
-                        // onClick={}
-                      >
-                        +New
-                      </Button>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
+            <Form id='sql-form'>
               <FormGroup>
                 <Row>
                   <Col className='ml-auto mr-auto'>
@@ -153,7 +186,7 @@ function SqlEditor() {
                       showPrintMargin={true}
                       showGutter
                       highlightActiveLine={true}
-                      value={sql_code} // Dynamically input text from database or user input
+                      value={sql_code || ''} // Dynamically input text from database or user input
                       setOptions={{
                         enableBasicAutocompletion: false,
                         enableLiveAutocompletion: false,
@@ -164,15 +197,20 @@ function SqlEditor() {
                     />
                     <Button
                       className='mt-2'
-                      color='success'
+                      outline
+                      color='info'
                       size='md'
-                      onClick={handleSave}
+                      onClick={handleNew}
                     >
-                      Save
+                      +New
                     </Button>
+                    <Link to='/login'>
+                      <Button className='mt-2 ml-2' color='success' size='md'>
+                        Login
+                      </Button>
+                    </Link>
                     <Button
                       className='mt-2 ml-2'
-                      type='submit'
                       color='danger'
                       size='md'
                       onClick={handleRun}
@@ -185,7 +223,9 @@ function SqlEditor() {
             </Form>
             <Row>
               <Col className='ml-auto mr-auto'>
-                <Results />
+                {showError()}
+                {showLoading()}
+                {Results()}
               </Col>
             </Row>
           </Col>
