@@ -86,6 +86,7 @@ function SqlEditor() {
     } else if (!title) {
       return alert('You should probably give your search a title');
     }
+
     saveCode(values, _id, token)
       .then(res => {
         // console.log(res.data);
@@ -136,9 +137,9 @@ function SqlEditor() {
   const handleNew = () => {
     setValues({
       ...values,
-      sql_code: ''
+      title: '',
+      sql_code: 'SELECT'
     });
-    window.location.reload();
   };
 
   let loadQueries = () => {
@@ -161,7 +162,6 @@ function SqlEditor() {
     window.location.reload();
   };
 
-  // Then work here =================================== update stuff
   let showSavedQuery = (codeId, token) => {
     getQuery(codeId, token)
       .then(res => {
@@ -177,12 +177,17 @@ function SqlEditor() {
 
   let removeAccount = () => {
     // Protect the user from deleting the account accidentally
-    deleteAccount(_id, token)
-      .then(res => {
-        console.log(res);
-        window.location.reload();
-      })
-      .catch(err => console.log(err));
+    let answer = window.confirm(
+      'Are you sure you want to delete your account?\nThis will delete your user account and all your SQL queries.'
+    );
+    if (answer) {
+      deleteAccount(_id, token)
+        .then(res => {
+          console.log(res);
+          window.location.reload();
+        })
+        .catch(err => console.log(err));
+    }
   };
 
   const showLoading = () =>
