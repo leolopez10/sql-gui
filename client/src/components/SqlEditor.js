@@ -145,13 +145,14 @@ function SqlEditor() {
   };
 
   const Results = () => (
-    <div className='mb-3 table-responsive'>
+    <div className='mb-3'>
       <h5>Results</h5>
       <Row>
         <Col>
           {/* {JSON.stringify(results)} */}
           <Table
             dark
+            className='table-responsive'
             style={{
               width: '100%'
             }}

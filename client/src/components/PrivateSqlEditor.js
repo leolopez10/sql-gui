@@ -302,6 +302,7 @@ function SqlEditor() {
           <h5>Results</h5>
           <Table
             dark
+            className='table-responsive'
             style={{
               width: '100%'
             }}
