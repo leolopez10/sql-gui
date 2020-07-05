@@ -138,7 +138,8 @@ function SqlEditor() {
     setValues({
       ...values,
       title: '',
-      sql_code: 'SELECT'
+      sql_code: 'SELECT',
+      success: false
     });
   };
 

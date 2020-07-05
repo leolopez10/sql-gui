@@ -67,7 +67,7 @@ function SqlEditor() {
   const handleNew = () => {
     setValues({
       ...values,
-      sql_code: ''
+      sql_code: 'SELECT'
     });
     window.location.reload();
   };
