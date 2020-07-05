@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { executeSql } from '../utils/API';
 
@@ -86,7 +86,12 @@ function SqlEditor() {
         display: error ? '' : 'none'
       }}
     >
-      <p>SYNTAX ERROR, but you have to find where 😈</p>
+      <p>
+        SYNTAX ERROR, but you have to find where{' '}
+        <span role='img' aria-label='devil'>
+          😈
+        </span>
+      </p>
     </div>
   );
 
@@ -116,45 +121,45 @@ function SqlEditor() {
     </Container>
   );
 
+  // Create table for results
+  let renderTableHeaders = () => {
+    let header = Object.keys(results[0]);
+    return header.map((key, index) => {
+      return <th key={index}>{key.toUpperCase()}</th>;
+    });
+  };
+
+  let renderTableData = () => {
+    console.log(results);
+    return results.map((result, index) => {
+      let data = Object.values(result);
+      return (
+        <tr key={index}>
+          {data.map((datum, index) => {
+            return <td key={index}>{datum}</td>;
+          })}
+        </tr>
+      );
+    });
+  };
+
   const Results = () => (
     <div className='mb-3'>
       <h5>Results</h5>
       <Row>
         <Col>
-          {JSON.stringify(results)}
+          {/* {JSON.stringify(results)} */}
           <Table
             dark
             style={{
               width: '100%'
             }}
           >
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
-              </tr>
-            </thead>
             <tbody>
               <tr>
-                <th scope='row'>1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                {results.length > 0 ? renderTableHeaders() : <td>No Data</td>}
               </tr>
-              <tr>
-                <th scope='row'>2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope='row'>3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
+              {results.length > 0 ? renderTableData() : <tr></tr>}
             </tbody>
           </Table>
         </Col>
@@ -188,9 +193,9 @@ function SqlEditor() {
                       highlightActiveLine={true}
                       value={sql_code || ''} // Dynamically input text from database or user input
                       setOptions={{
-                        enableBasicAutocompletion: false,
-                        enableLiveAutocompletion: false,
-                        enableSnippets: true,
+                        // enableBasicAutocompletion: false,
+                        // enableLiveAutocompletion: false,
+                        // enableSnippets: true,
                         showLineNumbers: true,
                         tabSize: 2
                       }}

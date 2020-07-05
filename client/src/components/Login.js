@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { signin, authenticate, isAuthenticated } from '../utils/API';
+import { signin, authenticate } from '../utils/API';
 
 // Import reactstrap
 import {

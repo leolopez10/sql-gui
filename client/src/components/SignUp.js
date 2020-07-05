@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { signup } from '../utils/API';
 
 import {
@@ -42,7 +42,6 @@ function SignUp() {
     signup({ username, password })
       .then(res => {
         // console.log(res);
-        let data = res.data;
         setValues({
           ...values,
           username: '',

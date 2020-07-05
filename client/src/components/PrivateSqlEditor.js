@@ -3,7 +3,7 @@ import {
   isAuthenticated,
   saveCode,
   getQueries,
-  updateQuery,
+  // updateQuery,
   getQuery,
   deleteQuery,
   signout,
@@ -42,16 +42,12 @@ function SqlEditor() {
   const [queries, setQueries] = useState([]);
   const [results, setResults] = useState([]);
 
-  useEffect(() => {
-    loadQueries();
-  }, []);
-
   const {
     user: { username, _id },
     token
   } = isAuthenticated();
 
-  const { title, sql_code, loading, error, success } = values;
+  const { sql_code, loading, error, success } = values;
 
   // Create an invisible text area that will take in the code
   const handleChange = event => {
@@ -71,7 +67,8 @@ function SqlEditor() {
     });
   };
 
-  const handleSave = () => {
+  const handleSave = event => {
+    event.preventDefault();
     saveCode(values, _id, token)
       .then(res => {
         // console.log(res.data);
@@ -136,6 +133,18 @@ function SqlEditor() {
       .catch(err => console.log(err));
   };
 
+  useEffect(() => {
+    let loadQueries = () => {
+      getQueries(_id, token)
+        .then(res => {
+          // console.log(res)
+          setQueries(res.data);
+        })
+        .catch(err => console.log(err));
+    };
+    loadQueries();
+  }, [_id, token]);
+
   let removeQuery = (codeId, userId, token) => {
     deleteQuery(codeId, userId, token)
       .then(res => loadQueries())
@@ -172,7 +181,12 @@ function SqlEditor() {
         display: error ? '' : 'none'
       }}
     >
-      <p>SYNTAX ERROR, but you have to find where 😈</p>
+      <p>
+        SYNTAX ERROR, but you have to find where{' '}
+        <span role='img' aria-label='devil'>
+          😈
+        </span>
+      </p>
     </div>
   );
 
@@ -268,45 +282,12 @@ function SqlEditor() {
             }}
           >
             <tbody>
-              <tr>{results.length > 0 ? renderTableHeaders() : ''}</tr>
-              {results.length > 0 ? renderTableData() : 'No Data'}
+              <tr>
+                {results.length > 0 ? renderTableHeaders() : <td>No Data</td>}
+              </tr>
+              {results.length > 0 ? renderTableData() : <tr></tr>}
             </tbody>
           </Table>
-          {/* <Table
-            dark
-            style={{
-              width: '100%'
-            }}
-          >
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope='row'>1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope='row'>2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope='row'>3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </Table> */}
         </Col>
       </Row>
     </div>
@@ -362,9 +343,9 @@ function SqlEditor() {
                       highlightActiveLine={true}
                       value={sql_code} // Dynamically input text from database or user input
                       setOptions={{
-                        enableBasicAutocompletion: false,
-                        enableLiveAutocompletion: false,
-                        enableSnippets: true,
+                        // enableBasicAutocompletion: false,
+                        // enableLiveAutocompletion: false,
+                        // enableSnippets: true,
                         showLineNumbers: true,
                         tabSize: 2
                       }}
@@ -379,7 +360,6 @@ function SqlEditor() {
                     </Button>
                     <Button
                       className='mt-2 ml-2'
-                      type='submit'
                       color='danger'
                       size='md'
                       onClick={handleRun}
